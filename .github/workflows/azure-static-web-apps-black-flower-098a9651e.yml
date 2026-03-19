@@ -28,9 +28,6 @@ jobs:
       - name: Publish Client
         run: dotnet publish Client/Client.csproj -c Release
 
-      - name: Publish Api
-        run: dotnet publish Api/Api.csproj -c Release
-
       - name: Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
@@ -39,9 +36,8 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           skip_app_build: true
-          skip_api_build: true
           app_location: "Client/bin/Release/net8.0/publish/wwwroot"
-          api_location: "Api/bin/Release/net8.0/publish"
+          api_location: "Api"
           output_location: ""
 
   close_pull_request_job:
