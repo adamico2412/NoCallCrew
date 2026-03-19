@@ -1,0 +1,24 @@
+@page "/protected/dashboard"
+@attribute [Authorize]
+
+<PageTitle>Dashboard</PageTitle>
+
+<h1>Dashboard</h1>
+
+<p>This is a protected page. Only authenticated users can see this.</p>
+
+<AuthorizeView>
+    <Authorized>
+        <div class="card">
+            <div class="card-header">Your Profile</div>
+            <div class="card-body">
+                <p><strong>Name:</strong> @context.User.Identity?.Name</p>
+                <p><strong>Authenticated:</strong> @context.User.Identity?.IsAuthenticated</p>
+                @foreach (var claim in context.User.Claims)
+                {
+                    <p><strong>@claim.Type:</strong> @claim.Value</p>
+                }
+            </div>
+        </div>
+    </Authorized>
+</AuthorizeView>

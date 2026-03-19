@@ -1,0 +1,13 @@
+{
+  "configurations": {
+    "default": {
+      "appLocation": "Client",
+      "apiLocation": "Api",
+      "outputLocation": "bin/Release/net8.0/publish/wwwroot",
+      "appBuildCommand": "dotnet publish -c Release",
+      "apiBuildCommand": "dotnet publish -c Release",
+      "run": "dotnet run",
+      "apiPort": 7071
+    }
+  }
+}

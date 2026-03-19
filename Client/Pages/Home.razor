@@ -1,0 +1,59 @@
+@page "/"
+@inject HttpClient Http
+
+<PageTitle>Home</PageTitle>
+
+<h1>Welcome to NoCallCrew</h1>
+
+<p>This is a Blazor WebAssembly app hosted on Azure Static Web Apps.</p>
+
+<AuthorizeView>
+    <Authorized>
+        <p>You are signed in as <strong>@context.User.Identity?.Name</strong>.</p>
+    </Authorized>
+    <NotAuthorized>
+        <p><a href="/.auth/login/github">Sign in with GitHub</a> to access protected features.</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+<h2>API Test</h2>
+
+@if (_message is not null)
+{
+    <div class="card" style="max-width: 400px;">
+        <div class="card-body">
+            <p class="card-text">@_message.Text</p>
+            <small class="text-muted">@_message.Timestamp.ToString("f")</small>
+        </div>
+    </div>
+}
+else if (_loading)
+{
+    <p><em>Loading...</em></p>
+}
+else if (_error is not null)
+{
+    <p class="text-danger">@_error</p>
+}
+
+@code {
+    private ApiMessage? _message;
+    private bool _loading = true;
+    private string? _error;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _message = await Http.GetFromJsonAsync<ApiMessage>("/api/message");
+        }
+        catch (Exception ex)
+        {
+            _error = $"Failed to load message: {ex.Message}";
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+}
